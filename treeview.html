@@ -3,6 +3,60 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <style>
+        body {
+            font: 300 1em 'Courier New'
+        }
+
+        .collapse, .expanded {
+            cursor: pointer;
+        }
+
+        .collapse > * {
+            display: none;
+        }
+    </style>
+    <script>
+        var obj = {
+            name: 'Edwin Villanueva',
+            address: {
+                city: 'California',
+                street: 'Washington Ave'
+            }
+        };
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var pdiv = document.createElement('div');
+
+            navigator.geolocation.getCurrentPosition(function (data) {
+                createTree(data, 0, pdiv);
+                pdiv.addEventListener('click', function (event) {
+                    event.target.className = event.target.className === 'collapse' ? 'expanded' : 'collapse';
+                });
+                document.body.appendChild(pdiv);
+            });
+
+            // createTree(obj, 0, pdiv);
+            function createTree(obj, level, parent) {
+                ++level;
+                for (var prop in obj) {
+                    console.log(prop);
+                    var div = document.createElement('div');
+                    div.className = 'collapse';
+                    div.appendChild(document.createTextNode('-'.repeat(level) + prop));
+                    parent.appendChild(div);
+                    if (typeof obj[prop] === 'object') {
+                        console.log(prop);
+                        createTree(obj[prop], level, div);
+                    }
+                }
+            }
+
+
+        });
+    </script>
 </head>
 <body>
 

@@ -15,7 +15,7 @@
 <body>
     <div ng-controller="MyController">
         {{ message }}
-        <div class="my-directive"></div>
+        <div class="my-directive" info="sc"></div>
     </div>
 
     <div class="my-directive"></div>
@@ -31,6 +31,7 @@
         }).controller('MyController', function ($scope) {
             $scope.message = 'Hello World from MYController (not from the directive)';
             $scope.data = 'MyController\'s Data';
+            $scope.sc = 10;
             console.log('running MyController functions');
         }).run(function ($rootScope) {
             $rootScope.data = 'Data from the $rootScope';
@@ -46,7 +47,14 @@
                     $scope.data = 'Data from directive now.';
                     console.log('running Directive functions');
                 },
-                template: '<div>{{message}}<br/>{{data}}</div>'
+                template: '<div></div>',
+                link: function (scope, element, attrs) {
+                    element.on('click', function () {
+                        console.log(scope.data);
+                        console.log(element[0]);
+                        console.log(attrs.info);
+                    });
+                }
             }
         });
 
